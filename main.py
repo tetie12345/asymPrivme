@@ -47,7 +47,7 @@ def send_messages(client, serverKey):
         send_server(client, message, serverKey)
 
 
-# Send the specified message t the server, using its key as encryption
+# Send the specified message to the server, using its key as encryption
 def send_server(socket, message, serverKey):
     message = ae.encrypt_message(message, serverKey)
     socket.send(message)
