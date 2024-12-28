@@ -23,7 +23,7 @@ def run_client(privateKey, publicKey):
     # tell the server we are ready to start sending messages
     send_server(clientSocket, "START_CONNECTION", serverKey)
 
-    #start sending messages
+    # start sending messages
     threading.Thread(target=recieve_messages, args=(clientSocket, privateKey,), daemon=True).start()
     send_messages(clientSocket, serverKey)
 
