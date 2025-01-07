@@ -4,7 +4,7 @@ PrivMe is a tui based chatting app, made to keep you as secure as possible
 ## installing:
 clone this repository:
 ```
-git clone https://github.com/tetie12345/privmeV2
+git clone https://github.com/tetie12345/asymPrivme
 ```
 
 and well, that's it!
