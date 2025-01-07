@@ -21,8 +21,8 @@ import asymmetric_encryption as ae
 # guess what this does
 def run_client(privateKey, publicKey):
     # prompt user for host and port
-    host = input("host: ")
-    port = int(input("port: "))
+    host = input("Host: ")
+    port = int(input("Port: "))
 
     # setup client socket
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -64,10 +64,10 @@ def username_transfer(clientSocket, privateKey, serverKey):
     #continue prompting for username until it meets server requirements
     while usernameStatus != "VALID":
 
-        print(f"username must be less than {maxUserLength} chars")
+        print(f"Username must be less than {maxUserLength} characters.")
 
         #prompt the user for their name
-        username = input("username: ")
+        username = input("Username: ")
 
         # Send the username to the server
         send_server(clientSocket, username, serverKey)
@@ -81,11 +81,11 @@ def group_transfer(clientSocket, privateKey, serverKey):
 
     time, groups = recv_server(clientSocket, privateKey) # 2
 
-    print(f"there are {len(groups)} groups:")
+    print(f"There are {len(groups)} groups:")
     print(groups)
 
     while 1:
-        action = input("do you want to [join] or [create] a group (join): ")
+        action = input("Do you want to [join] or [create] a group (join): ")
         if action != "create":
             send_server(clientSocket, "join", serverKey) # 3
 
@@ -107,8 +107,7 @@ def group_transfer(clientSocket, privateKey, serverKey):
                 continue
 
             elif status == "NO PASSWORD":
-                print("this server does not have a password")
-                print("proceed with caution")
+                print("This server does not have a password, please proceed with caution.")
 
             else:
                 password = input("password: ")
@@ -117,7 +116,7 @@ def group_transfer(clientSocket, privateKey, serverKey):
 
                 time, status = recv_server(clientSocket, privateKey) # 8
                 if status == "INCORRECT":
-                    print("password is incorrect")
+                    print("Password is incorrect.")
                     continue
 
             break
@@ -139,10 +138,10 @@ def group_transfer(clientSocket, privateKey, serverKey):
 
             time, status = recv_server(clientSocket, privateKey) # 6
             if status == "BAD":
-                print("group already exists")
+                print("Group already exists.")
                 continue
 
-            password = input("password: ")
+            password = input("Password: ")
             if password != "":
                 password = ae.generate_hash(password)
             send_server(clientSocket, password, serverKey)# 7
@@ -158,7 +157,7 @@ def recieve_messages(client, privateKey):
         time, message = recv_server(client, privateKey)
 
         if message == "SPAM":
-            raise Exception("stop spamming nerd")
+            raise Exception("You have been kicked for spamming.")
             quit()
 
         # print it to the screen
@@ -171,7 +170,7 @@ def send_messages(client, serverKey):
         # get input and encrypt it using the servers public key
         message = input()
         if bytes(message, 'utf-8') == b'':
-            print("your message has been blocked because it is empty")
+            print("Message empty, discarded.")
 
         # send the message to the server
         send_server(client, message, serverKey)
@@ -191,11 +190,11 @@ def recv_server(socket, privateKey):
 
 
 if __name__ == "__main__":
-    print("starting client...")
+    print("Starting client...")
     # generate the keypair
-    print("generating keypairs...")
+    print("Generating keypairs...")
 
     privateKey, publicKey = ae.generate_keys(4096)
 
-    print("succes!")
+    print("Succes!")
     run_client(privateKey, publicKey)
